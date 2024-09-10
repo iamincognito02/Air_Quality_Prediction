@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Prediction</title>
+    <style>
+        body {
+            font-family: 'Consolas', monospace;
+            margin: 0;
+            padding: 0px;
+            background: url('/static/Designer.png');
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #333;
+            width: 100%;
+            height: 100%;
+        }
+
+        h1 {
+            margin-top: 15px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #000000;
+        }
+
+        form {
+            width: 40%;
+            margin-left: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.448);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            display: block;
+            margin-left: 5px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 40%;
+            background: rgba(255, 255, 255, 0);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            color: rgb(0, 0, 0);
+            margin-top: 10px;
+            padding: 10px;
+            border: solid 1px #4CAF50;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        input[type="button"] {
+            width: 40%;
+            background: rgba(255, 255, 255, 0.448);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            color: rgb(0, 0, 0);
+            margin-top: 10px;
+            padding: 10px;
+            border: solid 1px #d82f2f;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+            color: rgb(255, 255, 255);
+        }
+
+        input[type="button"]:hover {
+            background-color: #d82f2f;
+            color: rgb(255, 255, 255);
+        }
+
+        .btns {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+
+        .result {
+            width: 41%;
+            margin-top: -520px;
+            display: flex;
+            flex-direction: row;
+            justify-content: stretch;
+            margin-left: 829px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .predict {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.448);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-align: center;
+            width: 30%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px 0px 0px 8px;
+        }
+
+        .predict h2 {
+            padding: 0%;
+            width: 100%;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .prediction {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.448);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-right: 0px;
+            border-radius: 0px 8px 8px 0px;
+        }
+
+        .prediction h2 {
+            margin-top: auto;
+            margin-bottom: auto;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .prediction p {
+            font-size: 30px;
+            text-align: center;
+            margin: auto;
+            color: #333;
+        }
+
+        .spacer {
+            margin-left: 6px;
+            padding: 0px;
+            color: rgb(0, 0, 0);
+            font-size: 40px;
+            font-weight: 100;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .Livable {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .Un-Livable {
+            background-color: #ff3b3b;
+            color: #000000;
+        }
+
+        .Highly_un-livable {
+            background-color: #7E0023;
+            color: white;
+        }
+
+        .inputval {
+            display: flex;
+            flex-direction: column;
+            width: 39.5% !important;
+            margin-top: 36px;
+            margin-right: 78px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.448);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            float: right;
+        }
+
+        .inputval h3 {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .inputval table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .inputval td {
+            padding: 10px 0px 10px 20px;
+            border-bottom: 1px solid #4c4c4c;
+            text-align: left;
+        }
+
+        .inputval th {
+            width: 30%;
+            padding: 10px 0 10px 10px;
+            border-bottom: 1px solid #4c4c4c;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><u>Air Quality Prediction</u></h1>
+    <form id="prediction-form" method="post" action="/">
+        <label for="feature1">NO<sub>2</sub></label>
+        <input type="text" id="feature1" name="feature1" autocomplete="off" required>
+        <label for="feature2">PM<sub>10</sub></label>
+        <input type="text" id="feature2" name="feature2" autocomplete="off" required>
+        <label for="feature3">PM<sub>2.5</sub></label>
+        <input type="text" id="feature3" name="feature3" autocomplete="off" required>
+        <label for="feature4">SO<sub>2</sub></label>
+        <input type="text" id="feature4" name="feature4" autocomplete="off" required>
+        <label for="feature5">CO</label>
+        <input type="text" id="feature5" name="feature5" autocomplete="off" required>
+        <label for="feature6">CO<sub>2</sub></label>
+        <input type="text" id="feature6" name="feature6" autocomplete="off" required>
+        <div class="btns">
+            <input type="submit" value="Predict">
+            <input type="button" class="clear" value="Clear" onclick="clearFields()" style=>
+        </div>
+    </form>
+    <div class="result">
+        <div class="predict">
+            <h2>Prediction </h2>
+            <h2 class="spacer">|</h2>
+        </div>
+        <div class="prediction {{ prediction }}">
+            <p>{{ prediction }}</p>
+        </div>
+    </div>
+    <div class="inputval" id="inputValues">
+        <h3>Input Values</h3>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td><strong>NO<sub>2</sub></strong></td>
+                <td id="feature1Value">{{ request.form['feature1'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>PM<sub>10</sub></strong></td>
+                <td id="feature2Value">{{ request.form['feature2'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>PM<sub>2.5</sub></strong></td>
+                <td id="feature3Value">{{ request.form['feature3'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>SO<sub>2</sub></strong></td>
+                <td id="feature4Value">{{ request.form['feature4'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>CO</strong></td>
+                <td id="feature5Value">{{ request.form['feature5'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>CO<sub>2</sub></strong></td>
+                <td id="feature6Value">{{ request.form['feature6'] }}</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        function clearFields() {
+            // Clear form fields
+            document.getElementById("prediction-form").reset();
+
+            // Clear prediction
+            document.querySelector('.prediction').classList.remove('Livable', 'Un-Livable', 'Highly_un-livable');
+            document.querySelector('.prediction p').textContent = '';
+
+            // Clear input values table
+            document.getElementById("feature1Value").textContent = '';
+            document.getElementById("feature2Value").textContent = '';
+            document.getElementById("feature3Value").textContent = '';
+            document.getElementById("feature4Value").textContent = '';
+            document.getElementById("feature5Value").textContent = '';
+            document.getElementById("feature6Value").textContent = '';
+        }
+    </script>
+</body>
+
+</html>
