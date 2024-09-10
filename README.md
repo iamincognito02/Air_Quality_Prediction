@@ -64,10 +64,10 @@ Random Forest and KNN were chosen for their consistent high performance in air q
 - **X (Features):** `NO2_mean`, `PM10_mean`, `PM2_mean`, `SO2_mean`, `CO_mean`, `CO2_mean`
 - **y (Target):** `Air_Quality`
 
-##Real-time Prediction
-![Unlivable](https://github.com/user-attachments/assets/6695d76e-752c-4de5-8fdd-a65e3cbacd19)
-![Livable](https://github.com/user-attachments/assets/2179613d-46cb-4e8c-a975-fbaaead8347e)
+## Real-time Prediction
 ![AQI_screen](https://github.com/user-attachments/assets/35602ee6-18e6-4030-92f9-1c57a20b7b67)
+![Livable](https://github.com/user-attachments/assets/2179613d-46cb-4e8c-a975-fbaaead8347e)
+![Unlivable](https://github.com/user-attachments/assets/6695d76e-752c-4de5-8fdd-a65e3cbacd19)
 
 
 ## Conclusion
